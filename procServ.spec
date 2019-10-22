@@ -29,16 +29,11 @@ For security reasons, procServ only accepts connections from localhost.
 
 %build
 [ -f configure ] || autoreconf -if
-%configure --docdir=%{_pkgdocdir} --disable-doc
+%configure --docdir=%{_pkgdocdir}
 make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-install -d %{buildroot}%{_mandir}/man1
-touch %{buildroot}%{_mandir}/man1/procServ.1
-install -d %{buildroot}%{_pkgdocdir}
-touch %{buildroot}%{_pkgdocdir}/junk
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 %clean
