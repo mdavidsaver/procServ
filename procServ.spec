@@ -8,7 +8,7 @@ Release: 8%{?dist}
 License: GPLv3
 URL: https://github.com/ralphlange/procServ
 Source0: https://github.com/ralphlange/procServ/releases/download/V%{version}/procServ-%{version}.tar.gz
-BuildRequires: libtelnet-devel gcc-c++
+BuildRequires: libtelnet-devel gcc-c++ autoconf automake
 
 %description
 procServ is a wrapper that starts an arbitrary command as a child process in
@@ -28,6 +28,7 @@ For security reasons, procServ only accepts connections from localhost.
 %setup -q
 
 %build
+[ -f configure ] || autoreconf -if
 %configure --docdir=%{_pkgdocdir}
 make %{?_smp_mflags}
 
