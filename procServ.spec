@@ -41,6 +41,9 @@ install -d %{buildroot}%{_pkgdocdir}
 touch %{buildroot}%{_pkgdocdir}/junk
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
+%clean
+rm -rf %{buildroot}
+
 %files
 %{_pkgdocdir}/
 %{_bindir}/procServ
