@@ -142,8 +142,7 @@ AS_IF([test x$enable_doc = xyes], [
   AS_IF([test x$A2X = x],[AC_MSG_ERROR([Missing a2x (from asciidoc)])],
         [test x$ASCIIDOC = x],[AC_MSG_ERROR([Missing asciidoc])],
         [test x$XMLLINT = x],[AC_MSG_ERROR([Missing xmllint])],
-        [test x$XSLTPROC = x],[AC_MSG_ERROR([Missing xsltproc])],
-        [test x$PDFGEN = x],[AC_MSG_ERROR([Missing a docbook to pdf converter (fop or dblatex)])]
+        [test x$XSLTPROC = x],[AC_MSG_ERROR([Missing xsltproc])]
   )
 ],[test x$enable_doc != xno], [
   AS_IF([test -f ${srcdir}/procServ.1 -a -f ${srcdir}/procServ.pdf -a -f ${srcdir}/procServ.html],[],
