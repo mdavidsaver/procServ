@@ -1,0 +1,45 @@
+name: Build
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+    linux:
+        name: "${{ matrix.name }}"
+        runs-on: "ubuntu-latest"
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                - name: "bundle libtelnet dev"
+                  configure: "--enable-devel --enable-access-from-anywhere --disable-doc"
+
+                - name: "bundle libtelnet no-doc"
+                  configure: "--disable-doc"
+
+                - name: "apt libtelnet no-doc"
+                  configure: "--disable-doc"
+                  apt: "libtelnet-dev"
+
+                - name: "apt libtelnet doc"
+                  configure: "--enable-doc"
+                  apt: "libtelnet-dev asciidoc fop xsltproc"
+
+        steps:
+        - uses: actions/checkout@v4
+        - name: "apt-get install"
+          if: matrix.apt
+          run: |
+            sudo apt-get update
+            sudo apt-get -y install ${{ matrix.apt }}
+        - name: autoreconf
+          run: autoreconf -ivf
+        - name: configure
+          run: |
+            mkdir build
+            (cd build && ../configure --prefix="$PWD/../usr" ${{ matrix.configure }})
+        - name: make
+          run: make -C build -j2
+        - name: run
+          run: |
+            ./build/procServ -V
+            ./build/procServ -h
